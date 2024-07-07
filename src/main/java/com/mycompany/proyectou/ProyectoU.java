@@ -1,19 +1,19 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package com.mycompany.proyectou;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author Aaron, Juan Esteban Peña Sanchez
+ * Source code: https://github.com/Datzu712/uni-proyecto-cuatri2
  */
 public class ProyectoU {
     public static void main(String[] args) {
-        Aplication app = new Aplication();
+        Application app = Application.getInstance();
+        Boolean ended = false;
         do {
             String option = JOptionPane.showInputDialog(
                 "Elija la opcion:\n" + 
@@ -24,46 +24,61 @@ public class ProyectoU {
                 "(5) 🡪 Salir \n"
             );
             switch(option){
-                case "1":
-                    createCategory(app);
-                    break;
-                case "2"://Mostrar categorias
-                    ArrayList<Category> categoryList = app.categories.getCategories();
-                    String categoryName = "";
-                    for(Category category :categoryList){
-                        categoryName+=category.name+ " \n";
-                        
-                    }
-                    JOptionPane.showMessageDialog(null, "Las categorias disponibles son las siguientes: \n"+categoryName);
-                break;
-                case "3"://Agregar productos
-                    Category category = app.categories.getCategory(JOptionPane.showInputDialog("Cual es el nombre de la categoria"));
-                    if(category == null){
-                        JOptionPane.showMessageDialog(null, "La categoria no se encontró");
-                        continue;
-                    }
-                    category.addProduct();
-                    
-                break;
-                case "4"://Ver productos de una categoria
-                    String targetCategoryName = JOptionPane.showInputDialog("Ingrese el nombre de la categoria para ver sus productos: ");
-                    ArrayList<Category> categories = app.categories.getCategories();
-                    for(Category cat: categories){
-                        if (targetCategoryName == cat.name){}
-                        
-                    }
-                    
-                    
-                break;
-                case "5": JOptionPane.showMessageDialog(null, "Saliendo del menu...");
-                break;
+                case "1" -> createCategoryOption(app);
+                case "2" -> showCategoriesOption(app);
+                case "3" -> addProductOption(app);
+                case "4" -> showProductsOption(app);
+                case "5" -> ended = true;
+                default -> JOptionPane.showMessageDialog(null, "Ha ingresado una opcion invalida!");
             }
-        } while(true);
+        } while(!ended);
+        JOptionPane.showMessageDialog(null, "Cerrando programa!");
     }
-
-    public static void createCategory(Aplication app) {
+    public static void createCategoryOption(Application app) {
         Category newCategory = app.categories.createCategory();
 
         JOptionPane.showMessageDialog(null, "La categoria" + newCategory.name + " ha sido creada satisfactoriamente!");
+    }
+    public static void showCategoriesOption(Application app) {
+        ArrayList<Category> categories = app.categories.getCategories();
+        String categoryNames = "";
+        for (Category category : categories) {
+            categoryNames += category.name + "\n";
+        }
+        JOptionPane.showMessageDialog(null, "Las categorias disponibles son: \n" + categoryNames);
+    }
+
+    public static void addProductOption(Application app) {
+        Category category = app.categories.getCategory(JOptionPane.showInputDialog("Cual es el nombre de la categoria"));
+        if (category == null){
+            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
+            return;
+        }
+        category.createProduct();
+        String shouldCreateOtherProduct = JOptionPane.showInputDialog(
+            "El producto ha sido creado satisfactoriamente para la categoria \"" + category.name +"\"! Desea agregar otro producto para esta misma categoria? (s/n)"
+        );
+        // We use ecuals method bc if we use == operator, it will compare the memory address of the strings, not the content
+        if(shouldCreateOtherProduct.toLowerCase().equals("s")){
+            addProductOption(app);
+        } else {
+            String productNames = "";
+            for (Product product : category.getProducts()) {
+                productNames += product.name + "\n";
+            }
+            JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + productNames);
+        }
+    }
+    public static void showProductsOption(Application app) {
+        Category category = app.categories.getCategory(JOptionPane.showInputDialog("Cual es el nombre de la categoria"));
+        if(category == null){
+            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
+            return;
+        }
+        String products = "";
+        for (Product product : category.getProducts()) {
+            products += product.name + " - " + product.price + "\n";
+        }
+        JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + products);
     }
 }
