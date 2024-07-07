@@ -19,7 +19,6 @@ public class Application {
     private Application() {
         categories = new CategoryService();
     }
-
     /**
      * Returns the instance of the `Application` class.
      * If no instance exists, a new instance is created and returned.
@@ -32,4 +31,9 @@ public class Application {
         }
         return instance;
     }
+    /**
+     *  Probably more methods will be added here in the future
+     *  or we will move the static methods of the menu to this class
+     * idk it is just a todo 
+     */
 }
