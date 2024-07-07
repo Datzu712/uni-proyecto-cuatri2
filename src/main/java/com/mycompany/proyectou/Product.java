@@ -9,14 +9,15 @@ package com.mycompany.proyectou;
  * @author Aaron
  */
 public class Product {
-    String name;
-    double price;
-    
+    private static int incrementalId = 0;
+
+    public final int id;
+    public String name;
+    public double price;
 
     public Product(String name, double price) {
         this.name = name;
         this.price = price;
+        this.id = Product.incrementalId++;
     }
-    
-    
 }
