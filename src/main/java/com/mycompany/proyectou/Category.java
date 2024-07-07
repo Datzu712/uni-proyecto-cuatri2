@@ -12,22 +12,32 @@ import javax.swing.JOptionPane;
  * @author Aaron
  */
 public class Category {
-    String name;
-    String description;
-    ArrayList <Product> productos = new ArrayList();
-    
+    static private int incrementalId = 0;
+
+    public final int id;
+    public String name;
+    public String description;
+    private ArrayList<Product> products = new ArrayList<Product>();
 
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+        this.id = Category.incrementalId++;
     }
-    public void addProduct(){
-        String name = JOptionPane.showInputDialog("Ingrese el nombre del producto: ");
-        double price =Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
-        Product newProduct = new Product(name, price);
-        this.productos.add(newProduct);
+    public void createProduct() {
+        try {
+            String name = JOptionPane.showInputDialog("Ingrese el nombre del producto: ");
+            double price = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
+
+            Product newProduct = new Product(name, price);
+            this.products.add(newProduct);
+            JOptionPane.showMessageDialog(null, "El producto " + newProduct.name + " (" + newProduct.id + ") ha sido agregado satisfactoriamente!");
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "No se ha podido agregar el producto, ha ingresado una opcion invalida.");
+        }
     }
-    
-    
-    
+    public ArrayList<Product> getProducts() {
+        return this.products;
+    }
 }

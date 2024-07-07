@@ -8,13 +8,17 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Aaron,  Juan Esteban Peña Sanchez
+ * The CategoryService class represents a service for managing categories.
+ * @author Aaron, Juan Esteban Peña Sanchez
  */
 public class CategoryService {
-    private ArrayList <Category> categories = new ArrayList<Category>();
+    private ArrayList<Category> categories = new ArrayList<Category>();
     
-    public Category createCategory(){
+    /**
+     * Creates a new category based on user input.
+     * @return The newly created category.
+     */
+    public Category createCategory() {
         String name = JOptionPane.showInputDialog("Ingrese el nombre de la categoria: ");
         String description =JOptionPane.showInputDialog("Ingrese la descripcion de la categoria: ");
 
@@ -23,19 +27,29 @@ public class CategoryService {
 
         return newCategory;
     }
+    
+    /**
+     * Returns all categories.
+     * @return A list of all categories inside this instance.
+     */
     public ArrayList<Category> getCategories(){
         return this.categories;
-        
     }
-    public Category getCategory(String categoryName){
-        Category targetCategory = null;
-        for(Category category:this.categories){
-            if(category.name == categoryName){
-                targetCategory = category;
+    /**
+     * Returns a category by its name.
+     * @param categoryName The name of the category to retrieve.
+     * @return The category with the specified name, or null if not found.
+     */
+    public Category getCategory(String categoryQuery) {
+        for (Category category : this.categories) {
+            if (category.name.equals(categoryQuery)){
+                return category;
             }
-            
+            String categoryId = Integer.toString(category.id);
+            if (categoryId.equals(categoryQuery)){
+                return category;
+            }
         }
-        return targetCategory;
+        return null;
     }
-    
 }
