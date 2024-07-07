@@ -60,7 +60,7 @@ public class ProyectoU {
         }
         String categoryNames = "";
         for (Category category : categories) {
-            categoryNames += "(" + category.id + ") " + category.name + "\n";
+            categoryNames += "(" + category.id + ") " + category.name + " (" +category.getProducts().size()+ " productos)" + "\n";
         }
         JOptionPane.showMessageDialog(null, "Las categorias disponibles son: \n" + categoryNames);
     }
