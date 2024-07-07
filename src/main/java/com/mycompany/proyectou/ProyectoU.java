@@ -15,7 +15,6 @@ public class ProyectoU {
     public static void main(String[] args) {
         Aplication app = new Aplication();
         do {
-            // test
             String option = JOptionPane.showInputDialog(
                 "Elija la opcion:\n" + 
                 "(1) 🡪 Ingresar categoria \n" + 
