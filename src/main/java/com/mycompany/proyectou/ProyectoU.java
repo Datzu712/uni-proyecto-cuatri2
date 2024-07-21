@@ -39,7 +39,7 @@ public class ProyectoU {
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error :(");
-                System.out.println(e);
+                throw e;
             }
         } while(!ended);
         JOptionPane.showMessageDialog(null, "Cerrando programa...");

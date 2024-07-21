@@ -43,19 +43,21 @@ public class Application {
         );
     }
     public void showCategoriesOption() {
-        Category[] categories = this.categories.getCategories();
-        if (categories.length == 0){
+        CustomArray<Category> categories = this.categories.getCategories();
+        if (categories.getSize(true) == 0) {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
         String categoryNames = "";
-        for (Category category : categories) {
-            categoryNames += "(" + category.id + ") " + category.name + " (" +category.getProducts().length+ " productos)" + "\n";
+        for (int i = 0; i < categories.getSize(true); i++) {
+            Category category = this.categories.getCategory(""+i+"");
+            categoryNames += "(" + category.id + ") " + category.name + " (" +category.getProducts(true).length+ " productos)" + "\n";
         }
         JOptionPane.showMessageDialog(null, "Las categorias disponibles son: \n" + categoryNames);
     }
     public void addProductOption() {
-        if (this.categories.getCategories().length == 0) {
+        CustomArray<Category> categories = this.categories.getCategories();
+        if (categories.getSize() == 0) {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
@@ -67,19 +69,19 @@ public class Application {
         category.createProduct();
     }
     public void showProductsOption() {
-        if (this.categories.getCategories().length == 0) {
+        if (this.categories.getCategories().getSize(true) == 0) {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
         Category category = this.categories.getCategory(
             JOptionPane.showInputDialog("Cual es el nombre de la categoria")
         );
-        if(category == null){
+        if (category == null) {
             JOptionPane.showMessageDialog(null, "La categoria no se encontró");
             return;
         }
         String products = "";
-        for (Product product : category.getProducts()) {
+        for (Product product : category.getProducts(true)) {
             products += product.name + " - " + product.price + "\n";
         }
         JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + products);

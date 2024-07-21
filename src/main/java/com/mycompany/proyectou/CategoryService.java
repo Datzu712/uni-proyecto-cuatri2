@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  * @author Aaron, Juan Esteban Peña Sanchez
  */
 public class CategoryService {
-    private CustomArray<Category> categories = new CustomArray<Category>();
+    private CustomArray<Category> categories = new CustomArray<Category>(Category.class);
     
     /**
      * Creates a new category based on user input.
@@ -31,8 +31,8 @@ public class CategoryService {
      * Returns all categories.
      * @return A list of all categories inside this instance.
      */
-    public Category[] getCategories(){
-        return this.categories.getElements();
+    public CustomArray<Category> getCategories() {
+        return this.categories;
     }
     /**
      * Returns a category by its name.
@@ -41,7 +41,7 @@ public class CategoryService {
      */
     public Category getCategory(String categoryQuery) {
         for (int i = 0; i < this.categories.getElements().length; i++) {
-            Category category = this.categories.getElement(i);
+            Category category = (Category) this.categories.getElement(i);
             if (category == null) continue;
 
             if (category.name.equals(categoryQuery)){

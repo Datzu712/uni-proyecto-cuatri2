@@ -1,13 +1,18 @@
 package com.mycompany.proyectou;
 
-public class CustomArray<T extends Object> {
-    public static int defaultExtraSize = 10;
-    private T[] elements;
+import java.lang.reflect.Array;
 
-    public CustomArray() {
-        elements = (T[]) new Object[10];
+public class CustomArray<Type> {
+    public static int defaultExtraSize = 10;
+    private Type[] elements;
+    private Class<Type> staticType;
+
+    public CustomArray(Class<Type> type) {
+        this.staticType = type;
+
+        elements = (Type[]) Array.newInstance(type, defaultExtraSize);
     }
-    public void add(T newElement) {
+    public void add(Type newElement) {
         boolean maxSizeExceeded = true;
         int nextIndex = 0;
         for (int i = 0; i < this.elements.length; i++) {
@@ -22,25 +27,57 @@ public class CustomArray<T extends Object> {
             nextIndex = this.elements.length;
             this.resize(CustomArray.defaultExtraSize + this.elements.length);
         }
-        this.elements[nextIndex] = newElement;
+        this.elements[nextIndex] = (Type) newElement;
     }
     private void resize(int newSize) {
         if (newSize <= this.elements.length) {
             throw new Error("El nuevo tamaño es menor al actual");
         }
         int newLen = newSize;
-        T[] newList = (T[]) new Object[newLen];
+        Type[] newList = (Type[]) new Object[newLen];
         for (int i = 0; i < this.elements.length; i++) {
-            newList[i] = (T) this.elements[i];
+            newList[i] = (Type) this.elements[i];
         }
-        this.elements = newList;
+        this.elements = (Type[]) newList;
     }
 
-    public T[] getElements() {
-        return this.elements;
+    public Type[] getElements() {
+        return (Type[]) this.elements;
+    }
+    public Type[] getElements(boolean notNull) {
+        if (notNull) {
+            int notNullElementsCount = this.getSize(true);
+
+            Type[] notNullElements = (Type[]) Array.newInstance(this.staticType, notNullElementsCount);
+            for (int i = 0; i < this.elements.length; i++) {
+                if (this.elements[i] != null) {
+                    notNullElements[i] = this.elements[i];
+                }
+            }
+            return notNullElements;
+        } else {
+            return this.elements;
+        }
     }
 
-    public T getElement(int index) {
+    public Type getElement(int index) {
         return this.elements[index];
+    }
+
+    public int getSize() {
+        return this.elements.length;
+    }
+    public int getSize(boolean notNull) {
+        if (notNull) {
+            int notNullElementsCount = 0;
+            for (int i = 0; i < this.elements.length; i++) {
+                if (this.elements[i] != null) {
+                    notNullElementsCount++;
+                }
+            }
+            return notNullElementsCount;
+        } else {
+            return this.elements.length;
+        }
     }
 }
