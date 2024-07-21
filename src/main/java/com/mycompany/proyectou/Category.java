@@ -4,7 +4,6 @@
  */
 package com.mycompany.proyectou;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,7 +16,7 @@ public class Category {
     public final int id;
     public String name;
     public String description;
-    private ArrayList<Product> products = new ArrayList<Product>();
+    private CustomArray<Product> products = new CustomArray<Product>(Product.class);
 
     public Category(String name, String description) {
         this.name = name;
@@ -37,7 +36,10 @@ public class Category {
             JOptionPane.showMessageDialog(null, "No se ha podido agregar el producto, ha ingresado una opcion invalida.");
         }
     }
-    public ArrayList<Product> getProducts() {
-        return this.products;
+    public Product[] getProducts() {
+        return this.products.getElements(false);
+    }
+    public Product[] getProducts(boolean notNull) {
+        return this.products.getElements(notNull);
     }
 }
