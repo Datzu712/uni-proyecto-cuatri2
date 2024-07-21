@@ -4,7 +4,6 @@
  */
 package com.mycompany.proyectou;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,7 +11,7 @@ import javax.swing.JOptionPane;
  * @author Aaron, Juan Esteban Peña Sanchez
  */
 public class CategoryService {
-    private ArrayList<Category> categories = new ArrayList<Category>();
+    private CustomArray<Category> categories = new CustomArray<Category>();
     
     /**
      * Creates a new category based on user input.
@@ -32,8 +31,8 @@ public class CategoryService {
      * Returns all categories.
      * @return A list of all categories inside this instance.
      */
-    public ArrayList<Category> getCategories(){
-        return this.categories;
+    public Category[] getCategories(){
+        return this.categories.getElements();
     }
     /**
      * Returns a category by its name.
@@ -41,7 +40,10 @@ public class CategoryService {
      * @return The category with the specified name, or null if not found.
      */
     public Category getCategory(String categoryQuery) {
-        for (Category category : this.categories) {
+        for (int i = 0; i < this.categories.getElements().length; i++) {
+            Category category = this.categories.getElement(i);
+            if (category == null) continue;
+
             if (category.name.equals(categoryQuery)){
                 return category;
             }
