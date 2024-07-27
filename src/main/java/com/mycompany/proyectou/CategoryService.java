@@ -11,47 +11,124 @@ import javax.swing.JOptionPane;
  * @author Aaron, Juan Esteban Peña Sanchez
  */
 public class CategoryService {
-    private CustomArray<Category> categories = new CustomArray<Category>(Category.class);
-    
+    private Category[] categories = new Category[ApplicationConfig.DEFAULT_ARR_SIZE];
+
+    /**
+     * Adds a new category to the current instance.
+     *
+     * @param newCategory the category to be added in the current instance.
+     * @throws IllegalArgumentException if the newCategory is null
+     */
+    public void add(Category newCategory) {
+        if (newCategory == null) {
+            /* 
+                If newCategory is null, throw an IllegalArgumentException with a descriptive message
+                This ensures that the method does not proceed with a null value, which could cause
+                unexpected behavior or errors later in the code.
+            */throw new IllegalArgumentException("La categoria no puede ser nula");
+        }
+        // variable to check if the array is full
+        boolean maxSizeExceeded = true;
+        /*  
+            variable to store the next empty index in the array where the new category will be added
+            Ej: [Category1, Category2, null, null] -> nextEmptyIndex = 2
+                    0         1         2     3
+        */
+        int nextEmptyIndex = 0;
+        for (int i = 0; i < this.categories.length; i++) {
+            if (this.categories[i] == null) {
+                maxSizeExceeded = false;
+                nextEmptyIndex = i;
+                break;
+            }
+        }
+        if (maxSizeExceeded) {
+            nextEmptyIndex = this.categories.length;
+            this.resize(ApplicationConfig.DEFAULT_ARR_SIZE + this.categories.length);
+        }
+        this.categories[nextEmptyIndex] = newCategory;
+    }
+
+    private void resize(int newSize) {
+        if (newSize <= this.categories.length) {
+            throw new IllegalArgumentException("El nuevo tamaño es menor al actual");
+        }
+
+        Category[] newList = new Category[newSize];
+        for (int i = 0; i < this.categories.length; i++) {
+            newList[i] = this.categories[i];
+        }
+        this.categories = newList;
+    }
     /**
      * Creates a new category based on user input.
      * @return The newly created category.
      */
     public Category createCategory() {
         String name = JOptionPane.showInputDialog("Ingrese el nombre de la categoria: ");
+        if (this.getCategory(name) != null) {
+            JOptionPane.showMessageDialog(null, "Ha ingresado el nombre de una categoria ya existente.");
+            return null;
+        }
         String description =JOptionPane.showInputDialog("Ingrese la descripcion de la categoria: ");
 
         Category newCategory = new Category(name, description);
-        this.categories.add(newCategory);
+        this.add(newCategory);
 
         return newCategory;
     }
-    
     /**
      * Returns all categories.
      * @return A list of all categories inside this instance.
      */
-    public CustomArray<Category> getCategories() {
+    public Category[] getCategories() {
         return this.categories;
     }
     /**
-     * Returns a category by its name.
+     * Returns all defined categories (remove all null values from <CategoryService/>.categories list).
+     */
+    public Category[] getCategories(boolean notNull) {
+        if (notNull) {
+            int notNullElementsCount = this.getSize(true);
+            Category[] notNullElements = new Category[notNullElementsCount];
+            for (int i = 0; i < this.categories.length; i++) {
+                if (this.categories[i] != null) {
+                    notNullElements[i] = this.categories[i];
+                }
+            }
+            return notNullElements;
+        } else {
+            return this.categories;
+        }
+    }
+    /**
+     * Returns a category by its name or ID.
      * @param categoryName The name of the category to retrieve.
      * @return The category with the specified name, or null if not found.
      */
-    public Category getCategory(String categoryQuery) {
-        for (int i = 0; i < this.categories.getElements().length; i++) {
-            Category category = (Category) this.categories.getElement(i);
-            if (category == null) continue;
+    public Category getCategory(String categoryName) {
+        for (int i = 0; i < this.categories.length; i++) {
+            if (this.categories[i] == null) continue;
 
-            if (category.name.equals(categoryQuery)){
-                return category;
-            }
-            String categoryId = Integer.toString(category.id);
-            if (categoryId.equals(categoryQuery)){
-                return category;
+            if (this.categories[i].name.equals(categoryName)) {
+                return this.categories[i];
+            } else if (String.valueOf(this.categories[i].id).equals(categoryName)) {
+                // String.valueOf() converts the integer to a string
+                return this.categories[i];
             }
         }
         return null;
+    }
+    public int getSize(boolean notNull) {
+        if (notNull) {
+            int notNullElementsCount = 0;
+            for (int i = 0; i < this.categories.length; i++) {
+                if (this.categories[i] != null) {
+                    notNullElementsCount++;
+                }
+            }
+            return notNullElementsCount;
+        }
+        return this.categories.length;
     }
 }

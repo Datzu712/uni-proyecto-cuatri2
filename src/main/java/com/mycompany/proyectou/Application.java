@@ -43,8 +43,7 @@ public class Application {
         );
     }
     public void showCategoriesOption() {
-        CustomArray<Category> categories = this.categories.getCategories();
-        if (categories.getSize(true) == 0) {
+        if (this.categories.getSize(true) == 0) {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
@@ -56,8 +55,7 @@ public class Application {
         JOptionPane.showMessageDialog(null, "Las categorias disponibles son: \n" + categoryNames);
     }
     public void addProductOption() {
-        CustomArray<Category> categories = this.categories.getCategories();
-        if (categories.getSize() == 0) {
+        if (this.categories.getSize(true) == 0) {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
@@ -69,7 +67,7 @@ public class Application {
         category.createProduct();
     }
     public void showProductsOption() {
-        if (this.categories.getCategories().getSize(true) == 0) {
+        if (this.categories.getSize(true) == 0) {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
