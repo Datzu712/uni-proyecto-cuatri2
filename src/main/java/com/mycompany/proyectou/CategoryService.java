@@ -66,6 +66,10 @@ public class CategoryService {
      */
     public Category createCategory() {
         String name = JOptionPane.showInputDialog("Ingrese el nombre de la categoria: ");
+        if (this.getCategory(name) != null) {
+            JOptionPane.showMessageDialog(null, "Ha ingresado el nombre de una categoria ya existente.");
+            return null;
+        }
         String description =JOptionPane.showInputDialog("Ingrese la descripcion de la categoria: ");
 
         Category newCategory = new Category(name, description);

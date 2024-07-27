@@ -33,7 +33,7 @@ public class Category {
             JOptionPane.showMessageDialog(null, "El producto " + newProduct.name + " (" + newProduct.id + ") ha sido agregado satisfactoriamente!");
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, "No se ha podido agregar el producto, ha ingresado una opcion invalida.");
+            JOptionPane.showMessageDialog(null, "Ha ingresado un numero invalido.");
         }
     }
     public Product[] getProducts() {
