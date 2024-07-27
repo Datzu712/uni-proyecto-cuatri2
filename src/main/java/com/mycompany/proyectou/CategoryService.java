@@ -73,7 +73,6 @@ public class CategoryService {
 
         return newCategory;
     }
-    
     /**
      * Returns all categories.
      * @return A list of all categories inside this instance.
@@ -86,12 +85,7 @@ public class CategoryService {
      */
     public Category[] getCategories(boolean notNull) {
         if (notNull) {
-            int notNullElementsCount = 0;
-            for (int i = 0; i < this.categories.length; i++) {
-                if (this.categories[i] != null) {
-                    notNullElementsCount++;
-                }
-            }
+            int notNullElementsCount = this.getSize(true);
             Category[] notNullElements = new Category[notNullElementsCount];
             for (int i = 0; i < this.categories.length; i++) {
                 if (this.categories[i] != null) {
@@ -120,5 +114,17 @@ public class CategoryService {
             }
         }
         return null;
+    }
+    public int getSize(boolean notNull) {
+        if (notNull) {
+            int notNullElementsCount = 0;
+            for (int i = 0; i < this.categories.length; i++) {
+                if (this.categories[i] != null) {
+                    notNullElementsCount++;
+                }
+            }
+            return notNullElementsCount;
+        }
+        return this.categories.length;
     }
 }

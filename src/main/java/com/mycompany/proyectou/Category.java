@@ -16,7 +16,7 @@ public class Category {
     public final int id;
     public String name;
     public String description;
-    private CustomArray<Product> products = new CustomArray<Product>(Product.class);
+    private ProductService products = new ProductService();
 
     public Category(String name, String description) {
         this.name = name;
@@ -37,9 +37,9 @@ public class Category {
         }
     }
     public Product[] getProducts() {
-        return this.products.getElements(false);
+        return this.products.getProducts(false);
     }
     public Product[] getProducts(boolean notNull) {
-        return this.products.getElements(notNull);
+        return this.products.getProducts(notNull);
     }
 }
