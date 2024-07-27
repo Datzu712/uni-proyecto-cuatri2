@@ -2,6 +2,7 @@ package com.mycompany.proyectou;
 
 import java.lang.reflect.Array;
 
+// (el profe no nos deja usar ArrayList)
 public class CustomArray<Type> {
     public static int defaultExtraSize = 10;
     private Type[] elements;
@@ -9,7 +10,6 @@ public class CustomArray<Type> {
 
     public CustomArray(Class<Type> type) {
         this.staticType = type;
-
         elements = (Type[]) Array.newInstance(type, defaultExtraSize);
     }
     public void add(Type newElement) {
@@ -35,6 +35,7 @@ public class CustomArray<Type> {
         }
         int newLen = newSize;
         Type[] newList = (Type[]) new Object[newLen];
+        // todo: change for arraycopy
         for (int i = 0; i < this.elements.length; i++) {
             newList[i] = (Type) this.elements[i];
         }
