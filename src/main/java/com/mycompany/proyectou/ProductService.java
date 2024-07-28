@@ -68,4 +68,18 @@ public class ProductService {
         }
         return this.products.length;
     }
+
+    public Product getProduct(String productName) {
+        for (int i = 0; i < this.products.length; i++) {
+            if (this.products[i] == null) continue;
+
+            if (this.products[i].name.equals(productName)) {
+                return this.products[i];
+            } else if (String.valueOf(this.products[i].id).equals(productName)) {
+                // String.valueOf() converts the integer to a string
+                return this.products[i];
+            }
+        }
+        return null;
+    }
 }
