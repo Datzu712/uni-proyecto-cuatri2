@@ -17,7 +17,7 @@ public class ProyectoU {
         do {
             String option = JOptionPane.showInputDialog(
                 "Elija la opcion:\n" + 
-                "(1) Ingresar categoria o productos a una categoria \n" + 
+                "(1) Ingresar categoria o productos a una categoria \n " + 
                 "(2) Mostrar categorias \n" + 
                 "(3) Ver productos de una categoria \n" + 
                 "(4) Cambiar precio a un producto \n" +
