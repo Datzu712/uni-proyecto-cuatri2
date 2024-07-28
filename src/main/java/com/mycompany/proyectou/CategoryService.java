@@ -119,6 +119,14 @@ public class CategoryService {
         }
         return null;
     }
+    /**
+     * Returns the size of the categories array.
+     * If the parameter `notNull` is true, it returns the count of non-null elements in the array.
+     * If the parameter `notNull` is false, it returns the length of the array.
+     *
+     * @param notNull a boolean value indicating whether to count only non-null elements or not
+     * @return the size of the categories array
+     */
     public int getSize(boolean notNull) {
         if (notNull) {
             int notNullElementsCount = 0;
