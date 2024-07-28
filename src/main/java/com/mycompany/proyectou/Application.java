@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyectou;
 
+import java.lang.foreign.Linker;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -34,12 +36,57 @@ public class Application {
         return instance;
     }
 
+    /**
+     * Creates a menu to create a new category-add product
+     */
+    public void createCategoryProductOption(){
+        String option = "";
+        option = JOptionPane.showInputDialog(
+            "Elija la opcion:\n" + 
+            "(1) Ingresar categoria \n" + 
+            "(2) Ingresar producto \n"
+        );
+        if(option.equals("1")){
+            createCategoryOption();
+        }
+        else if(option.equals("2")){
+            addProductOption();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Ha ingresado una opcion invalida!");
+        }
+    }
+
+    /**
+     * Chance product price 
+     */
+    public void changeProductPriceOption(){
+        if (this.categories.getSize(true) == 0) {
+            JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
+            return;
+        }
+        Category category = this.categories.getCategory(Util.input("Ingrese el nombre/ID de la categoria", false));
+        if (category == null){
+            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
+            return;
+        }
+        Product product = category.products.getProduct(Util.input("Ingrese el nombre/ID del producto", false));
+        if (product == null){
+            JOptionPane.showMessageDialog(null, "El producto no se encontró");
+            return;
+        }
+        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto", false);
+        product.price = newPrice;
+        JOptionPane.showMessageDialog(null, "El precio del producto " + product.name + " ha sido cambiado a " + newPrice);
+        
+    }
+
     public void createCategoryOption() {
         Category newCategory = this.categories.createCategory();
 
         JOptionPane.showMessageDialog(
             null, 
-            "La categoria" + newCategory.name + " (" + newCategory.id + ") ha sido creada satisfactoriamente!"
+            "La categoria " + newCategory.name + " (" + newCategory.id + ") ha sido creada satisfactoriamente!"
         );
     }
     public void showCategoriesOption() {

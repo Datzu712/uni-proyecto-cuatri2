@@ -17,10 +17,10 @@ public class ProyectoU {
         do {
             String option = JOptionPane.showInputDialog(
                 "Elija la opcion:\n" + 
-                "(1) Ingresar categoria \n" + 
+                "(1) Ingresar categoria o productos a una categoria \n" + 
                 "(2) Mostrar categorias \n" + 
-                "(3) Agregar productos \n" + 
-                "(4) Ver productos de una categoria \n" + 
+                "(3) Ver productos de una categoria \n" + 
+                "(4) Cambiar precio a un producto \n" +
                 "(5) Salir \n"
             );
             // Note: If the user closes the dialog, the option will be null
@@ -30,10 +30,10 @@ public class ProyectoU {
             }
             try {
                 switch(option){
-                    case "1" -> app.createCategoryOption();
+                    case "1" -> app.createCategoryProductOption();
                     case "2" -> app.showCategoriesOption();
-                    case "3" -> app.addProductOption();
-                    case "4" -> app.showProductsOption();
+                    case "3" -> app.showProductsOption();
+                    case "4" -> app.changeProductPriceOption();
                     case "5" -> ended = true;
                     default -> JOptionPane.showMessageDialog(null, "Ha ingresado una opcion invalida!");
                 }
