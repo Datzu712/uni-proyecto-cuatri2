@@ -137,3 +137,14 @@ public class Application {
         JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + products);
     }
 }
+    public void showCompleteInventoryOption() {
+        String inventoryText = "";
+        for (Category category : categories.getCategories(true)) {
+            inventoryText += category.name + ":\n";
+            for (Product product : category.getProducts(true)) {
+                inventoryText += "- " + product.name + " (Precio: " + product.price + ")\n";
+            }
+            inventoryText += "\n";
+        }
+        JOptionPane.showMessageDialog(null, inventoryText);
+    }
