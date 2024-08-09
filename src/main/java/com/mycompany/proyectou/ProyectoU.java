@@ -13,51 +13,53 @@ import javax.swing.JOptionPane;
 public class ProyectoU {
     public static void main(String[] args) {
         Application app = Application.getInstance();
-Boolean ended = false;
+        Boolean ended = false;
 
-do {
-    String option = JOptionPane.showInputDialog(
-        "Elija la opción:\n" +
-        "(1) Ver Inventario Completo\n" +
-        "(2) Ingresar categoría o productos a una categoría\n" + 
-        "(3) Mostrar categorías\n" +
-        "(4) Ver productos de una categoría\n" +
-        "(5) Cambiar precio a un producto\n" +
-        "(6) Salir\n"
-    );
+        do {
+            String option = JOptionPane.showInputDialog(
+                "Elija la opción:\n" +
+                "(1) Ver Inventario Completo\n" +
+                "(2) Ingresar categoría o productos a una categoría\n" +
+                "(3) Mostrar categorías\n" +
+                "(4) Ver productos de una categoría\n" +
+                "(5) Cambiar precio a un producto\n" +
+                "(6) Salir\n"
+            );
 
-    if (option == null) {
-        ended = true;
-        break;
-    }
-
-    try {
-        switch (option) {
-            case "1":
-                app.showCompleteInventoryOption(); 
-                break;
-            case "2":
-                app.createCategoryProductOption();
-                break;
-            case "3":
-                app.showCategoriesOption();
-                break;
-            case "4":
-                app.showProductsOption();
-                break;
-            case "5":
-                app.changeProductPriceOption();
-                break;
-            case "6": 
+            if (option == null) {
                 ended = true;
                 break;
-            default:
-                JOptionPane.showMessageDialog(null, "Ha ingresado una opción inválida!");
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Ha ocurrido un error :(");
-        throw e; 
-    }
-} while (!ended);
+            }
 
-JOptionPane.showMessageDialog(null, "Cerrando programa...");
+            try {
+                switch (option) {
+                    case "1":
+                        app.showCompleteInventoryOption();
+                        break;
+                    case "2":
+                        app.createCategoryProductOption();
+                        break;
+                    case "3":
+                        app.showCategoriesOption();
+                        break;
+                    case "4":
+                        app.showProductsOption();
+                        break;
+                    case "5":
+                        app.changeProductPriceOption();
+                        break;
+                    case "6":
+                        ended = true;
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Ha ingresado una opción inválida!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error :(");
+                throw e;
+            }
+        } while (!ended);
+
+        JOptionPane.showMessageDialog(null, "Cerrando programa...");
+    }
+}

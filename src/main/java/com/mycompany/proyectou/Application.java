@@ -4,8 +4,6 @@
  */
 package com.mycompany.proyectou;
 
-import java.lang.foreign.Linker;
-
 import javax.swing.JOptionPane;
 
 /**
@@ -136,7 +134,7 @@ public class Application {
         }
         JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + products);
     }
-}
+
     public void showCompleteInventoryOption() {
         String inventoryText = "";
         for (Category category : categories.getCategories(true)) {
@@ -148,3 +146,4 @@ public class Application {
         }
         JOptionPane.showMessageDialog(null, inventoryText);
     }
+}
