@@ -84,6 +84,11 @@ public class Application {
     public void createCategoryOption() {
         Category newCategory = this.categories.createCategory();
 
+        if (newCategory == null) {
+            JOptionPane.showMessageDialog(null, "La categoria no se pudo crear");
+            return;
+        }
+
         JOptionPane.showMessageDialog(
             null, 
             "La categoria " + newCategory.name + " (" + newCategory.id + ") ha sido creada satisfactoriamente!"
