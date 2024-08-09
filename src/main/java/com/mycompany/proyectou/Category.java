@@ -26,7 +26,13 @@ public class Category {
     public void createProduct() {
         try {
             String name = JOptionPane.showInputDialog("Ingrese el nombre del producto: ");
+            
+            if(products.getProduct(name) != null){
+                JOptionPane.showMessageDialog(null, "El producto ya existe.");
+                return;
+            }
             double price = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
+
 
             Product newProduct = new Product(name, price);
             this.products.add(newProduct);
@@ -42,5 +48,6 @@ public class Category {
     public Product[] getProducts(boolean notNull) {
         return this.products.getProducts(notNull);
     }
+
     
 }

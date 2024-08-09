@@ -7,6 +7,7 @@ public class ProductService {
         if (newProduct == null) {
             throw new IllegalArgumentException("El producto no puede ser nulo");
         }
+        
         boolean maxSizeExceeded = true;
         int nextEmptyIndex = 0;
         for (int i = 0; i < this.products.length; i++) {
