@@ -71,7 +71,10 @@ public class CategoryService {
             return null;
         }
         String description =JOptionPane.showInputDialog("Ingrese la descripcion de la categoria: ");
-
+        int response = JOptionPane.showConfirmDialog(null, "¿Desea agregar la categoria " + name + "?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.NO_OPTION) {
+            return null;
+        }
         Category newCategory = new Category(name, description);
         this.add(newCategory);
 

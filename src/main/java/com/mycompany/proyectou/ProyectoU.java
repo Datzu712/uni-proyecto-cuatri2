@@ -19,7 +19,7 @@ public class ProyectoU {
             String option = JOptionPane.showInputDialog(
                 "Elija la opción:\n" +
                 "(1) Ver Inventario Completo\n" +
-                "(2) Ingresar categoría o productos a una categoría\n" +
+                "(2) Registrar categoría o registrar productos a una categoría\n" +
                 "(3) Mostrar categorías\n" +
                 "(4) Ver productos de una categoría\n" +
                 "(5) Cambiar precio a un producto\n" +

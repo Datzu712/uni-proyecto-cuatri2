@@ -42,13 +42,17 @@ public class Application {
         option = JOptionPane.showInputDialog(
             "Elija la opcion:\n" + 
             "(1) Ingresar categoria \n" + 
-            "(2) Ingresar producto \n"
+            "(2) Ingresar producto \n" +
+            "(3) Regresar\n"
         );
         if(option.equals("1")){
             createCategoryOption();
         }
         else if(option.equals("2")){
             addProductOption();
+        }
+        else if(option.equals("3")){
+            return;
         }
         else{
             JOptionPane.showMessageDialog(null, "Ha ingresado una opcion invalida!");
@@ -109,6 +113,15 @@ public class Application {
             JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
+        Category[] categoriesArray = this.categories.getCategories(true);
+    
+        String categoryArray="Las categorias disponibles son: \n";
+        for (int i = 0; i < categoriesArray.length; i++) {
+            Category category = categoriesArray[i];
+            categoryArray += category.name + " con el ID (" + category.id + ") y la descripcion: " + category.description + "\n";
+        }
+        JOptionPane.showMessageDialog(null, categoryArray);
+
         Category category = this.categories.getCategory(JOptionPane.showInputDialog("Ingrese el nombre/ID de la categoria"));
         if (category == null){
             JOptionPane.showMessageDialog(null, "La categoria no se encontró");
@@ -126,6 +139,10 @@ public class Application {
         );
         if (category == null) {
             JOptionPane.showMessageDialog(null, "La categoria no se encontró");
+            return;
+        }
+        if (category.getProducts(true).length == 0) {
+            JOptionPane.showMessageDialog(null, "La categoria no tiene productos de momento");
             return;
         }
         String products = "";
