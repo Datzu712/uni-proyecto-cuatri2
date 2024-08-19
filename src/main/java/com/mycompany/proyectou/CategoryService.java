@@ -49,6 +49,12 @@ public class CategoryService {
         this.categories[nextEmptyIndex] = newCategory;
     }
 
+    /**
+     * Resizes the array of categories to the specified newSize.
+     * 
+     * @param newSize the new size of the array
+     * @throws IllegalArgumentException if the new size is smaller than or equal to the current size
+     */
     private void resize(int newSize) {
         if (newSize <= this.categories.length) {
             throw new IllegalArgumentException("El nuevo tamaño es menor al actual");
@@ -151,6 +157,11 @@ public class CategoryService {
         return this.categories.length;
     }
 
+    /**
+     * Allows the user to pick a category from the available categories.
+     * If the category does not exist, the user will be prompted to try again.
+     * @return The selected Category object, or null if no category is selected.
+     */
     public Category pickCategory() {
         Category[] categories = this.getCategories(true);
         if (categories.length == 0) {
