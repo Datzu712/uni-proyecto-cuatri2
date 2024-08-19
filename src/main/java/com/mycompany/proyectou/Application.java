@@ -61,7 +61,7 @@ public class Application {
             case null: // User clicked on cancel
                 return;
             default: // User a non-valid option
-                JOptionPane.showMessageDialog(null, "Ha ingresado una opción invalida!");
+                Util.showMessage("Ha ingresado una opción invalida!");
                 break;
         }
     }
@@ -70,36 +70,51 @@ public class Application {
      * Chance product price 
      */
     public void changeProductPriceOption() {
-        String inventoryText = "";
-        String inventoryText2 = "";
-        for (Category category : categories.getCategories(true)) {
-            inventoryText += category.name + "\n"; }
-            inventoryText += "\n";
-            JOptionPane.showMessageDialog(null, "Categorías Disponibles:\n"+inventoryText);
-        
         if (this.categories.getSize(true) == 0) {
-            JOptionPane.showMessageDialog(null, "No hay categorías disponibles. Por favor, cree una categoría primero.");
+            Util.showMessage("No hay categorías disponibles. Por favor, cree una categoría primero.");
             return;
         }
-        Category category = this.categories.getCategory(Util.input("Ingrese el nombre/ID de la categoría", false));
+        // Showing categories
+        String availableCategories = "";
+        for (Category category : categories.getCategories(true)) {
+            availableCategories += "[" + category.id + "] - " + category.name + "\n"; 
+        }
+        Util.showMessage("Categorías Disponibles:\n" + availableCategories);
+
+        String categoryName = Util.input("Ingrese el nombre/ID de la categoría");
+        if (categoryName == null) {
+            return;
+        }
+        Category category = this.categories.getCategory(categoryName);
         if (category == null){
-            JOptionPane.showMessageDialog(null, "La categoría no se encontró");
+            Util.showMessage("La categoría no se encontró \"" + categoryName + "\"");
             return;
         }
+    
+        // Showing products
+        String availableProducts = "";
         for (Product product : category.getProducts(true)) {
-            inventoryText2 += "- " + product.name + " (Precio: " + product.price + ")\n";
+            availableProducts += "[" + product.id + "] - " + product.name + " (Precio: " + (int) product.price + " | Stock: " + (int) product.stock + ")\n";
         }
-        inventoryText2 += "\n";
-        JOptionPane.showMessageDialog(null, "Productos Disponibles\n"+inventoryText2);
-        Product product = category.products.getProduct(Util.input("Ingrese el nombre/ID del producto", false));
-        if (product == null){
-            JOptionPane.showMessageDialog(null, "El producto no se encontró");
+        Util.showMessage("Productos de la categoría " + category.name + ":\n" + availableProducts);
+
+        // Picking a product
+        String productName = Util.input("Ingrese el nombre/ID del producto");
+        if (productName == null) {
             return;
         }
-        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto", false);
+        Product product = category.products.getProduct(productName);
+        if (product == null){
+            Util.showMessage("El producto no se encontró");
+            return;
+        }
+        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto");
+        if (newPrice == -1) {
+            return;
+        }
         product.price = newPrice;
 
-        JOptionPane.showMessageDialog(null, "El precio del producto " + product.name + " ha sido cambiado a " + newPrice);
+        Util.showMessage("El precio del producto " + product.name + " ha sido cambiado a " + newPrice);
     }
 
     public void createCategoryOption() {
@@ -154,10 +169,9 @@ public class Application {
             return;
         }
         Category category = this.categories.getCategory(
-            JOptionPane.showInputDialog("Cual es el nombre/ID de la categoria")
+            Util.input("Cual es el nombre o la ID de la categoria")
         );
         if (category == null) {
-            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
             return;
         }
         if (category.getProducts(true).length == 0) {
@@ -205,7 +219,7 @@ public class Application {
             JOptionPane.showMessageDialog(null, "El producto no se encontró");
             return;
         }
-        int stock = (int)Util.inputInt("Ingrese la cantidad de productos a agregar", false);
+        int stock = (int) Util.inputInt("Ingrese la cantidad de productos a agregar");
         product.stock += stock;
         JOptionPane.showMessageDialog(null, "Se han agregado " + stock + " a la cantidad del producto " + product.name + " de la categoria " + category.name + " la cantidad total es " + product.stock);
     }
