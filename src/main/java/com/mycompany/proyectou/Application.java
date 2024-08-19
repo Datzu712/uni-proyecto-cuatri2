@@ -40,22 +40,26 @@ public class Application {
     public void createCategoryProductOption(){
         String option = "";
         option = JOptionPane.showInputDialog(
-            "Elija la opcion:\n" + 
-            "(1) Ingresar categoria \n" + 
+            "Elija la opción:\n" + 
+            "(1) Ingresar categoría \n" + 
             "(2) Ingresar producto \n" +
-            "(3) Regresar \n"
+            "(3) Regresar"
         );
-        if(option.equals("1")){
-            createCategoryOption();
-        }
-        else if(option.equals("2")){
-            addProductOption();
-        }
-        else if(option.equals("3")){
-            return;
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Ha ingresado una opcion invalida!");
+        
+        switch (option) {
+            case "1":
+                createCategoryOption();
+                break;
+            case "2":
+                addProductOption();
+                break;
+            case "3":
+                return;
+            case null: // User clicked on cancel
+                return;
+            default: // User a non-valid option
+                JOptionPane.showMessageDialog(null, "Ha ingresado una opción invalida!");
+                break;
         }
     }
 
