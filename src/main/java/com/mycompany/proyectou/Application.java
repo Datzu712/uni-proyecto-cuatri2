@@ -174,7 +174,9 @@ public class Application {
             Util.showMessage("No hay productos en la categoría " + category.name + ". Por favor, agregue un producto primero.");
             return;
         }
-        String ProductName = Util.input(availableProducts);
+        String productName = " Los productos de la categoria " + category.name + " son: \n";
+        productName+= availableProducts;
+        String ProductName = Util.input(productName);
         if (ProductName == null) {
             return;
         }
