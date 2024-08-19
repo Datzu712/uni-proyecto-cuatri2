@@ -24,35 +24,30 @@ public class Category {
         this.id = Category.incrementalId++;
     }
     public void createProduct() {
-        try {
-            String name = JOptionPane.showInputDialog("Ingrese el nombre del producto: ");
-            
-            if(products.getProduct(name) != null){
-                Util.showMessage("El producto ya existe.");
-                return;
-            }
-            double price = Util.inputInt("Ingrese el precio del producto: ");
-            if (Double.isNaN(price)) {
-                return;
-            }
-            if (price < 0) {
-                Util.showMessage("El precio no puede ser negativo.");
-                return;
-            }
-            //double price = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
-            int response = JOptionPane.showConfirmDialog(null, "¿Desea agregar el producto a la categoria "+this.name+"?", "Confirmar", JOptionPane.YES_NO_OPTION);
-            if (response == JOptionPane.NO_OPTION) {
-                Util.showMessage("El producto no ha sido agregado a la categoria "+this.name);
-                return;
-            }
-            
-            Product newProduct = new Product(name, price);
-            this.products.add(newProduct);
-            Util.showMessage("El producto " + newProduct.name + " (" + newProduct.id + ") ha sido agregado satisfactoriamente a la categoria "+this.name);
-        } catch (Exception e) {
-            System.out.println(e);
-            Util.showMessage("Ha ingresado un numero invalido.");
+        String name = Util.input("Ingrese el nombre del producto: ");
+        
+        if(products.getProduct(name) != null){
+            Util.showMessage("El producto ya existe.");
+            return;
         }
+        double price = Util.inputInt("Ingrese el precio del producto: ");
+        if (Double.isNaN(price)) {
+            return;
+        }
+        if (price < 0) {
+            Util.showMessage("El precio no puede ser negativo.");
+            return;
+        }
+        int response = JOptionPane.showConfirmDialog(null, "¿Desea agregar el producto a la categoria "+this.name+"?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.NO_OPTION) {
+            Util.showMessage("El producto no ha sido agregado a la categoria "+this.name);
+            return;
+        }
+        
+        Product newProduct = new Product(name, price);
+        this.products.add(newProduct);
+            Util.showMessage("El producto " + newProduct.name + " (" + newProduct.id + ") ha sido agregado satisfactoriamente a la categoria "+this.name);
+
     }
     public Product[] getProducts() {
         return this.products.getProducts(false);
