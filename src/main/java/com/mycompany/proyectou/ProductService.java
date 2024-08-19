@@ -83,4 +83,32 @@ public class ProductService {
         }
         return null;
     }
+
+    public String toString() {
+        Product[] products = this.getProducts(true);
+        if (products.length == 0) {
+            return "";
+        }
+
+        String availableProducts = "";
+        for (Product product : products) {
+            availableProducts += "[" + product.id + "] - " + product.name + " (Precio: " + (int) product.price + " | Stock: " + (int) product.stock + ")\n";
+        }
+        return availableProducts;
+    }
+
+    public Product pickProduct(String parentCategoryName) {
+        Product[] products = this.getProducts(true);
+        if (products.length == 0) {
+            Util.showMessage("No hay productos registrados");
+            return null;
+        }
+        String availableProducts = this.toString();
+
+        String productName = Util.input("Productos de la categoría " + parentCategoryName + ":\n" + availableProducts + "\nIngrese el nombre/ID del producto");
+        if (productName == null) {
+            return null;
+        }
+        return this.getProduct(productName);
+    }
 }

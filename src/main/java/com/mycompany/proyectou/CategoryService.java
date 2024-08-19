@@ -67,7 +67,7 @@ public class CategoryService {
     public Category createCategory() {
         String name = JOptionPane.showInputDialog("Ingrese el nombre de la categoria: ");
         if (this.getCategory(name) != null) {
-            JOptionPane.showMessageDialog(null, "Ha ingresado el nombre de una categoria ya existente.");
+            Util.showMessage("Ha ingresado el nombre de una categoria ya existente.");
             return null;
         }
         String description =JOptionPane.showInputDialog("Ingrese la descripcion de la categoria: ");
@@ -141,5 +141,23 @@ public class CategoryService {
             return notNullElementsCount;
         }
         return this.categories.length;
+    }
+
+    public Category pickCategory() {
+        Category[] categories = this.getCategories(true);
+        if (categories.length == 0) {
+            Util.showMessage("No hay categorias disponibles.");
+            return null;
+        }
+
+        String availableCategories = "";
+        for (Category category : categories) {
+            availableCategories += "[" + category.id + "] - " + category.name + "(Productos registrados: " + category.getProducts(true).length + ")\n"; 
+        }
+        String categoryName = Util.input("Categorías Disponibles:\n" + availableCategories + "\nIngrese el nombre/ID de la categoría");
+        if (categoryName == null) {
+            return null;
+        }
+        return this.getCategory(categoryName);
     }
 }

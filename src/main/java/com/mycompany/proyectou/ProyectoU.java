@@ -55,14 +55,14 @@ public class ProyectoU {
                         ended = true;
                         break;
                     default:
-                        JOptionPane.showMessageDialog(null, "Ha ingresado una opción inválida!");
+                        Util.showMessage("Ha ingresado una opción inválida!");
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Ha ocurrido un error :(");
+                Util.showMessage("Ha ocurrido un error :(");
                 throw e;
             }
         } while (!ended);
 
-        JOptionPane.showMessageDialog(null, "Cerrando programa...");
+        Util.showMessage("Cerrando programa...");
     }
 }

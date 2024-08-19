@@ -14,10 +14,11 @@ public class Util {
     public static String input(String text) {
         String userInput = JOptionPane.showInputDialog(null, text);
         if (userInput == null) { // user clicked cancel
+            Util.showMessage("Cancelando...");
             return null;
         }
         if(userInput.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No ha ingresado ningún valor");
+            Util.showMessage("No ha ingresado ningún valor");
             return input(text);
         }
         return userInput;
@@ -33,12 +34,11 @@ public class Util {
         try {
             String usrInput = input(text);
             if (usrInput == null) {
-                Util.showMessage("Cancelando...");
                 return -1;
             }
-            return Float.parseFloat(input(text)); 
+            return Float.parseFloat(usrInput); 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ha digitado un valor invalido");
+            Util.showMessage("Ha digitado un valor invalido");
             return inputInt(text);
         }
         
