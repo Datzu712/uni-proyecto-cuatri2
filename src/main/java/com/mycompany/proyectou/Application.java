@@ -196,13 +196,11 @@ public class Application {
             Util.showMessage("No hay productos en la categoría " + category.name + ". Por favor, agregue un producto primero.");
             return;
         }
-        String productName = " Los productos de la categoria " + category.name + " son: \n";
-        productName+= availableProducts;
-        String ProductName = Util.input(productName);
-        if (ProductName == null) {
+        String productName = Util.input("Los productos de la categoria " + category.name + " son: \n" + availableProducts + "\nIngrese el nombre/ID del producto");
+        if (productName == null) {
             return;
         }
-        Product product = category.products.getProduct(ProductName);
+        Product product = category.products.getProduct(productName);
         if (product == null){
             Util.showMessage("El producto no se encontró");
             return;
