@@ -92,7 +92,7 @@ public class ProductService {
 
         String availableProducts = "";
         for (Product product : products) {
-            availableProducts += "[" + product.id + "] - " + product.name + " (Precio: " + (int) product.price + " | Stock: " + (int) product.stock + ")\n";
+            availableProducts += "[" + product.id + "] " + product.name + "\n  - Precio: " + (int) product.price + "$\n  - Stock: " + (int) product.stock + "\n";
         }
         return availableProducts;
     }

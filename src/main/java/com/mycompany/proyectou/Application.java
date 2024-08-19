@@ -94,7 +94,7 @@ public class Application {
             Util.showMessage("El producto no se encontró");
             return;
         }
-        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto " + product.name + " (Precio actual: " + product.price + ")");
+        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto " + product.name + " (Precio actual: " + product.price + "$)");
         if (newPrice == -1) {
             return;
         }
@@ -107,7 +107,6 @@ public class Application {
         Category newCategory = this.categories.createCategory();
 
         if (newCategory == null) {
-            Util.showMessage("La categoria no se pudo crear");
             return;
         }
 
@@ -130,18 +129,8 @@ public class Application {
             Util.showMessage("No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
-        Category[] categoriesArray = this.categories.getCategories(true);
-    
-        String categoryArray="Las categorias disponibles son: \n";
-        for (int i = 0; i < categoriesArray.length; i++) {
-            Category category = categoriesArray[i];
-            categoryArray += category.name + " con el ID (" + category.id + ") y la descripcion: " + category.description + "\n";
-        }
-        JOptionPane.showMessageDialog(null, categoryArray);
-
-        Category category = this.categories.getCategory(JOptionPane.showInputDialog("Ingrese el nombre/ID de la categoria"));
-        if (category == null){
-            Util.showMessage("La categoria no se encontró");
+        Category category = this.categories.pickCategory();
+        if (category == null) {
             return;
         }
         category.createProduct();
@@ -233,7 +222,7 @@ public class Application {
                     inventoryText += category.name + ":\n";
                     Product[] notNullProducts = category.getProducts(true);
                     for (Product product : notNullProducts) {
-                        inventoryText += "- " + product.name + " (Precio: " + product.price + ") (Cantidad: " + product.stock + ") \n";
+                        inventoryText += "- " + product.name + " (Precio: " + product.price + "$) (Cantidad: " + product.stock + ") \n";
                     }
                     inventoryText += "\n";
                 }
@@ -245,7 +234,7 @@ public class Application {
                 String productsText = selectedCategory.name + ":\n";
                 Product[] notNullProducts = selectedCategory.getProducts(true);
                 for (Product product : notNullProducts) {
-                    productsText += "- " + product.name + " (Precio: " + product.price + ") (Cantidad: " + product.stock + ")\n";
+                    productsText += "- " + product.name + " (Precio: " + product.price + "$) (Cantidad: " + product.stock + ")\n";
                 }
     
                 // Error o éxito
