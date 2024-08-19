@@ -33,9 +33,9 @@ public class ProyectoU {
 
             try {
                 switch (option) {
-                    case "1":
-                        app.showCompleteInventoryOption();
-                        break;
+                    // case "1":
+                    //     app.showCompleteInventoryOption();
+                    //     break;
                     case "2":
                         app.createCategoryProductOption();
                         break;

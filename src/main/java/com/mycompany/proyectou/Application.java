@@ -152,39 +152,40 @@ public class Application {
         JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + products);
     }
 
-    public void showCompleteInventoryOption() {
-    String categoriesText = "Seleccione una categoría:\n";
-    for (int i = 0; i < categories.getCategories(true).size(); i++) {
-        categoriesText += (i + 1) + ". " + categories.getCategories(true).get(i).name + "\n";
-    }
-    categoriesText += (categories.getCategories(true).size() + 1) + ". Regresar\n";
+    // public void showCompleteInventoryOption() {
+    //     String categoriesText = "Seleccione una categoría:\n";
+    //     for (int i = 0; i < categories.getCategories(true).size(); i++) {
+    //         categoriesText += (i + 1) + ". " + categories.getCategories(true).get(i).name + "\n";
+    //     }
+    //     categoriesText += (categories.getCategories(true).size() + 1) + ". Regresar\n";
 
-    int selectedCategoryIndex;
-    do {
-        String selectedCategoryOption = JOptionPane.showInputDialog(categoriesText);
+    //     int selectedCategoryIndex;
+    //     do {
+    //         String selectedCategoryOption = JOptionPane.showInputDialog(categoriesText);
 
-        try {
-            selectedCategoryIndex = Integer.parseInt(selectedCategoryOption) - 1;
-        } catch (NumberFormatException e) {
-            selectedCategoryIndex = -1; 
-        }
+    //         try {
+    //             selectedCategoryIndex = Integer.parseInt(selectedCategoryOption) - 1;
+    //         } catch (NumberFormatException e) {
+    //             selectedCategoryIndex = -1; 
+    //         }
 
-        if (selectedCategoryIndex < 0 || selectedCategoryIndex > categories.getCategories(true).size()) {
-            JOptionPane.showMessageDialog(null, "Opción inválida. Por favor, seleccione una categoría válida o regrese.");
-        }
-    } while (selectedCategoryIndex < 0 || selectedCategoryIndex > categories.getCategories(true).size());
+    //         if (selectedCategoryIndex < 0 || selectedCategoryIndex > categories.getCategories(true).size()) {
+    //             JOptionPane.showMessageDialog(null, "Opción inválida. Por favor, seleccione una categoría válida o regrese.");
+    //         }
+    //     } while (selectedCategoryIndex < 0 || selectedCategoryIndex > categories.getCategories(true).size());
 
-    if (selectedCategoryIndex == categories.getCategories(true).size()) {
-        return;
-    }
+    //     if (selectedCategoryIndex == categories.getCategories(true).size()) {
+    //         return;
+    //     }
 
-    Category selectedCategory = categories.getCategories(true).get(selectedCategoryIndex);
+    //     Category selectedCategory = categories.getCategories(true).get(selectedCategoryIndex);
 
-    String productsText = selectedCategory.name + ":\n";
-    for (Product product : selectedCategory.getProducts(true)) {
-        productsText += "- " + product.name + " (Precio: " + product.price + ", Cantidad: " + product.quantity + ")\n";
-    }
-    productsText += "\n";
+    //     String productsText = selectedCategory.name + ":\n";
+    //     for (Product product : selectedCategory.getProducts(true)) {
+    //         productsText += "- " + product.name + " (Precio: " + product.price + ", Cantidad: " + product.quantity + ")\n";
+    //     }
+    //     productsText += "\n";
 
-    JOptionPane.showMessageDialog(null, productsText);
+    //     JOptionPane.showMessageDialog(null, productsText);
+    // }
 }
