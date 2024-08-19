@@ -26,14 +26,24 @@ public class Category {
     public void createProduct() {
         try {
             String name = JOptionPane.showInputDialog("Ingrese el nombre del producto: ");
+            
+            if(products.getProduct(name) != null){
+                Util.showMessage("El producto ya existe.");
+                return;
+            }
             double price = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
-
+            int response = JOptionPane.showConfirmDialog(null, "¿Desea agregar el producto a la categoria "+this.name+"?", "Confirmar", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.NO_OPTION) {
+                Util.showMessage("El producto no ha sido agregado a la categoria "+this.name);
+                return;
+            }
+            
             Product newProduct = new Product(name, price);
             this.products.add(newProduct);
-            JOptionPane.showMessageDialog(null, "El producto " + newProduct.name + " (" + newProduct.id + ") ha sido agregado satisfactoriamente!");
+            Util.showMessage("El producto " + newProduct.name + " (" + newProduct.id + ") ha sido agregado satisfactoriamente a la categoria "+this.name);
         } catch (Exception e) {
             System.out.println(e);
-            JOptionPane.showMessageDialog(null, "Ha ingresado un numero invalido.");
+            Util.showMessage("Ha ingresado un numero invalido.");
         }
     }
     public Product[] getProducts() {
@@ -42,5 +52,6 @@ public class Category {
     public Product[] getProducts(boolean notNull) {
         return this.products.getProducts(notNull);
     }
+
     
 }

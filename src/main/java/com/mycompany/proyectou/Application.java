@@ -20,6 +20,9 @@ public class Application {
 
     private Application() {
         categories = new CategoryService();
+        if (ApplicationConfig.TEST_MODE) {
+            test();
+        }
     }
     /**
      * Returns the instance of the `Application` class.
@@ -40,61 +43,78 @@ public class Application {
     public void createCategoryProductOption(){
         String option = "";
         option = JOptionPane.showInputDialog(
-            "Elija la opcion:\n" + 
-            "(1) Ingresar categoria \n" + 
-            "(2) Ingresar producto \n"
+            "Elija la opción:\n" + 
+            "(1) Ingresar categoría \n" + 
+            "(2) Ingresar producto \n" +
+            "(3) Regresar"
         );
-        if(option.equals("1")){
-            createCategoryOption();
-        }
-        else if(option.equals("2")){
-            addProductOption();
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Ha ingresado una opcion invalida!");
+        
+        switch (option) {
+            case "1":
+                createCategoryOption();
+                break;
+            case "2":
+                addProductOption();
+                break;
+            case "3":
+                return;
+            case null: // User clicked on cancel
+                return;
+            default: // User a non-valid option
+                Util.showMessage("Ha ingresado una opción invalida!");
+                break;
         }
     }
 
     /**
      * Chance product price 
      */
-    public void changeProductPriceOption(){
+    public void changeProductPriceOption() {
         if (this.categories.getSize(true) == 0) {
-            JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
+            Util.showMessage("No hay categorías disponibles. Por favor, cree una categoría primero.");
             return;
         }
-        Category category = this.categories.getCategory(Util.input("Ingrese el nombre/ID de la categoria", false));
-        if (category == null){
-            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
+        Category category = this.categories.pickCategory();
+        if (category == null) {
             return;
         }
-        Product product = category.products.getProduct(Util.input("Ingrese el nombre/ID del producto", false));
+
+        // Showing products
+        String availableProducts = category.products.toString();
+        if (availableProducts.isEmpty()) {
+            Util.showMessage("No hay productos en la categoría " + category.name + ". Por favor, agregue un producto primero.");
+            return;
+        }
+        String productName = Util.input("Productos de la categoría " + category.name + ":\n" + availableProducts + "\nIngrese el nombre/ID del producto");
+        if (productName == null) {
+            return;
+        }
+        Product product = category.products.getProduct(productName);
         if (product == null){
-            JOptionPane.showMessageDialog(null, "El producto no se encontró");
+            Util.showMessage("El producto no se encontró");
             return;
         }
-        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto", false);
+        double newPrice = Util.inputInt("Ingrese el nuevo precio del producto " + product.name + " (Precio actual: " + product.price + "$)");
+        if (newPrice == -1) {
+            return;
+        }
         product.price = newPrice;
-        JOptionPane.showMessageDialog(null, "El precio del producto " + product.name + " ha sido cambiado a " + newPrice);
-        
+
+        Util.showMessage("El precio del producto " + product.name + " ha sido cambiado a " + newPrice);
     }
 
     public void createCategoryOption() {
         Category newCategory = this.categories.createCategory();
 
         if (newCategory == null) {
-            JOptionPane.showMessageDialog(null, "La categoria no se pudo crear");
             return;
         }
 
-        JOptionPane.showMessageDialog(
-            null, 
-            "La categoria " + newCategory.name + " (" + newCategory.id + ") ha sido creada satisfactoriamente!"
-        );
+        Util.showMessage("La categoria " + newCategory.name + " (" + newCategory.id + ") ha sido creada satisfactoriamente!");
     }
     public void showCategoriesOption() {
         if (this.categories.getSize(true) == 0) {
-            JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
+            Util.showMessage("No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
         String categoryNames = "";
@@ -102,48 +122,161 @@ public class Application {
             Category category = this.categories.getCategory(""+i+"");
             categoryNames += "(" + category.id + ") " + category.name + " (" +category.getProducts(true).length+ " productos)" + "\n";
         }
-        JOptionPane.showMessageDialog(null, "Las categorias disponibles son: \n" + categoryNames);
+        Util.showMessage("Las categorias disponibles son: \n" + categoryNames);
     }
     public void addProductOption() {
         if (this.categories.getSize(true) == 0) {
-            JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
+            Util.showMessage("No hay categorias disponibles. Por favor, cree una categoria primero.");
             return;
         }
-        Category category = this.categories.getCategory(JOptionPane.showInputDialog("Ingrese el nombre/ID de la categoria"));
-        if (category == null){
-            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
+        Category category = this.categories.pickCategory();
+        if (category == null) {
             return;
         }
         category.createProduct();
     }
     public void showProductsOption() {
-        if (this.categories.getSize(true) == 0) {
-            JOptionPane.showMessageDialog(null, "No hay categorias disponibles. Por favor, cree una categoria primero.");
-            return;
-        }
-        Category category = this.categories.getCategory(
-            JOptionPane.showInputDialog("Cual es el nombre de la categoria")
-        );
+        Category category = this.categories.pickCategory();
         if (category == null) {
-            JOptionPane.showMessageDialog(null, "La categoria no se encontró");
             return;
         }
-        String products = "";
-        for (Product product : category.getProducts(true)) {
-            products += product.name + " - " + product.price + "\n";
+        if (category.getProducts(true).length == 0) {
+            Util.showMessage("La categoria no tiene productos de momento.");
+            return;
         }
-        JOptionPane.showMessageDialog(null, "Los productos de la categoria " + category.name + " son: \n" + products);
+        String availableProducts = category.products.toString();
+        if (availableProducts.isEmpty()) {
+            Util.showMessage("No hay productos en la categoría " + category.name + ". Por favor, agregue un producto primero.");
+    
+            showProductsOption();
+            return;
+        }
+        Util.showMessage("Los productos de la categoria " + category.name + " son: \n" + availableProducts);
+    }
+
+    public void addProductsOption() {
+        Category category = this.categories.pickCategory();
+        if (category == null) {
+            return;
+        }
+        if (category.getProducts(true).length == 0) {
+            Util.showMessage("No existen productos en la categoria " + category.name + ". Por favor, agregue un producto primero.");
+            return;
+        }
+        String availableProducts = category.products.toString();
+        if (availableProducts.isEmpty()) {
+            Util.showMessage("No hay productos en la categoría " + category.name + ". Por favor, agregue un producto primero.");
+            return;
+        }
+        String ProductName = Util.input(availableProducts);
+        if (ProductName == null) {
+            return;
+        }
+        Product product = category.products.getProduct(ProductName);
+        if (product == null){
+            Util.showMessage("El producto no se encontró");
+            return;
+        }
+        int stock = (int) Util.inputInt("Ingrese la cantidad de productos a agregar");
+        product.stock += stock;
+
+        Util.showMessage("Se han agregado " + stock + " a la cantidad del producto " + product.name + " de la categoria " + category.name + " la cantidad total es " + product.stock);
     }
 
     public void showCompleteInventoryOption() {
-        String inventoryText = "";
-        for (Category category : categories.getCategories(true)) {
-            inventoryText += category.name + ":\n";
-            for (Product product : category.getProducts(true)) {
-                inventoryText += "- " + product.name + " (Precio: " + product.price + ")\n";
+        while (true) { 
+            // 1. Mostrar lista de categorías para selección
+            String categoriesText = "Seleccione una categoría o vea el inventario completo:\n";
+            Category[] notNullCategories = categories.getCategories(true);
+            for (int i = 0; i < notNullCategories.length; i++) {
+                categoriesText += (i + 1) + ". " + notNullCategories[i].name + "\n";
             }
-            inventoryText += "\n";
+            categoriesText += (notNullCategories.length + 1) + ". Ver Inventario Completo\n";
+            categoriesText += (notNullCategories.length + 2) + ". Regresar\n"; 
+    
+            int selectedOptionIndex;
+            do {
+                String selectedOption = JOptionPane.showInputDialog(categoriesText);
+    
+                // 2. Validar opción ingresada
+                try {
+                    selectedOptionIndex = Integer.parseInt(selectedOption) - 1;
+                } catch (NumberFormatException e) {
+                    selectedOptionIndex = -1; 
+                }
+    
+                if (selectedOptionIndex < 0 || selectedOptionIndex > notNullCategories.length + 1) {
+                    Util.showMessage("Opción inválida. Por favor, seleccione una opción válida.");
+                }
+            } while (selectedOptionIndex < 0 || selectedOptionIndex > notNullCategories.length + 1);
+    
+            //"Regresar", salir del bucle y volver al menú principal
+            if (selectedOptionIndex == notNullCategories.length + 1) {
+                break; 
+            }
+    
+            // "Ver Inventario Completo"
+            if (selectedOptionIndex == notNullCategories.length) {
+                String inventoryText = "";
+                for (Category category : notNullCategories) {
+                    inventoryText += category.name + ":\n";
+                    Product[] notNullProducts = category.getProducts(true);
+                    for (Product product : notNullProducts) {
+                        inventoryText += "- " + product.name + " (Precio: " + product.price + "$) (Cantidad: " + product.stock + ") \n";
+                    }
+                    inventoryText += "\n";
+                }
+                inventoryText += "\nPresione OK para regresar al menú principal."; 
+                JOptionPane.showMessageDialog(null, inventoryText);
+            } else { 
+                // Mostrar productos de la categoría seleccionada
+                Category selectedCategory = notNullCategories[selectedOptionIndex];
+                String productsText = selectedCategory.name + ":\n";
+                Product[] notNullProducts = selectedCategory.getProducts(true);
+                for (Product product : notNullProducts) {
+                    productsText += "- " + product.name + " (Precio: " + product.price + "$) (Cantidad: " + product.stock + ")\n";
+                }
+    
+                // Error o éxito
+                if (notNullProducts.length == 0) {
+                    Util.showMessage("La categoría seleccionada no tiene productos.");
+                } else {
+                    JOptionPane.showMessageDialog(null, productsText);
+                }
+            }
         }
-        JOptionPane.showMessageDialog(null, inventoryText);
+    }
+
+    private void test() {
+        Category congelados = new Category("congelados", "Productos congelados");
+        Category enlatados = new Category("enlatados", "Productos enlatados");
+
+        Product helado = new Product("helado", 1000);
+        Product pescado = new Product("pescado", 2000);
+        Product atun = new Product("atun", 3000);
+
+        congelados.products.add(helado);
+        congelados.products.add(pescado);
+        enlatados.products.add(atun);
+
+        helado.stock = 10;
+        pescado.stock = 20;
+        atun.stock = 30;
+
+        Product arroz = new Product("arroz", 4000);
+        Product frijoles = new Product("frijoles", 5000);
+        Product lentejas = new Product("lentejas", 6000);
+
+        enlatados.products.add(arroz);
+        enlatados.products.add(frijoles);
+        enlatados.products.add(lentejas);
+
+        arroz.stock = 40;
+        frijoles.stock = 50;
+        lentejas.stock = 60;
+
+        this.categories.add(congelados);
+        this.categories.add(enlatados);
     }
 }
+

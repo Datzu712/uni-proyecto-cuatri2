@@ -18,14 +18,14 @@ public class ProyectoU {
         do {
             String option = JOptionPane.showInputDialog(
                 "Elija la opción:\n" +
-                "(1) Ver Inventario Completo\n" +
-                "(2) Ingresar categoría o productos a una categoría\n" +
-                "(3) Mostrar categorías\n" +
-                "(4) Ver productos de una categoría\n" +
-                "(5) Cambiar precio a un producto\n" +
-                "(6) Salir\n"
+                "(1) Registro\n" +
+                "(2) Ingresar productos\n" +
+                "(3) Editar precio de un producto\n" +
+                "(4) Ver inventario\n" +
+                "(5) Ver categorías existentes\n" +
+                "(6) Ver productos existentes\n" +
+                "(7) Salir\n"
             );
-
             if (option == null) {
                 ended = true;
                 break;
@@ -34,32 +34,35 @@ public class ProyectoU {
             try {
                 switch (option) {
                     case "1":
-                        app.showCompleteInventoryOption();
-                        break;
-                    case "2":
                         app.createCategoryProductOption();
                         break;
+                    case "2":
+                        app.addProductsOption();
+                        break;
                     case "3":
-                        app.showCategoriesOption();
-                        break;
-                    case "4":
-                        app.showProductsOption();
-                        break;
-                    case "5":
                         app.changeProductPriceOption();
                         break;
+                    case "4":
+                        app.showCompleteInventoryOption();
+                        break;
+                    case "5":
+                        app.showCategoriesOption();
+                        break;
                     case "6":
+                        app.showProductsOption();
+                        break;
+                    case "7":
                         ended = true;
                         break;
                     default:
-                        JOptionPane.showMessageDialog(null, "Ha ingresado una opción inválida!");
+                        Util.showMessage("Ha ingresado una opción inválida!");
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Ha ocurrido un error :(");
+                Util.showMessage("Ha ocurrido un error :(");
                 throw e;
             }
         } while (!ended);
 
-        JOptionPane.showMessageDialog(null, "Cerrando programa...");
+        Util.showMessage("Cerrando programa...");
     }
 }

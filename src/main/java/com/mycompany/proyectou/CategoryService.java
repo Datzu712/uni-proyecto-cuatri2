@@ -65,13 +65,24 @@ public class CategoryService {
      * @return The newly created category.
      */
     public Category createCategory() {
-        String name = JOptionPane.showInputDialog("Ingrese el nombre de la categoria: ");
-        if (this.getCategory(name) != null) {
-            JOptionPane.showMessageDialog(null, "Ha ingresado el nombre de una categoria ya existente.");
+        String name = Util.input("Ingrese el nombre de la categoría: ");
+        if (name == null) {
             return null;
         }
-        String description =JOptionPane.showInputDialog("Ingrese la descripcion de la categoria: ");
 
+        if (this.getCategory(name) != null) {
+            Util.showMessage("Ha ingresado el nombre de una categoría ya existente.");
+            return createCategory();
+        }
+        String description = Util.input("Ingrese la descripción de la categoría: ");
+        if (description == null) {
+            return null;
+        }
+
+        int response = JOptionPane.showConfirmDialog(null, "¿Desea agregar la categoría " + name + "?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.NO_OPTION) {
+            return null;
+        }
         Category newCategory = new Category(name, description);
         this.add(newCategory);
 
@@ -138,5 +149,29 @@ public class CategoryService {
             return notNullElementsCount;
         }
         return this.categories.length;
+    }
+
+    public Category pickCategory() {
+        Category[] categories = this.getCategories(true);
+        if (categories.length == 0) {
+            Util.showMessage("No hay categorías disponibles.");
+            return null;
+        }
+
+        String availableCategories = "";
+        for (Category category : categories) {
+            availableCategories += "[" + category.id + "] - " + category.name + " (Productos registrados: " + category.getProducts(true).length + ")\n"; 
+        }
+        String categoryName = Util.input("Categorías Disponibles:\n" + availableCategories + "\nIngrese el nombre/ID de la categoría");;
+        if (categoryName == null) {
+            return null;
+        }
+        Category targetCategory =  this.getCategory(categoryName);
+        if (targetCategory == null) {
+            Util.showMessage("La categoría " + categoryName + " no existe.");
+
+            return pickCategory();
+        }
+        return targetCategory;
     }
 }
