@@ -195,7 +195,7 @@ public class Application {
         JOptionPane.showMessageDialog(null, "Se han agregado " + quantity + " a la cantidad del producto " + product.name + " de la categoria " + category.name + " la cantidad total es " + product.quantity);
     }
 
-    public void showCompleteInventoryOption() {
+   /*public void showCompleteInventoryOption() {
         String inventoryText = "";
         for (Category category : categories.getCategories(true)) {
             inventoryText += category.name + ":\n";
@@ -205,5 +205,70 @@ public class Application {
             inventoryText += "\n";
         }
         JOptionPane.showMessageDialog(null, inventoryText);
+    }*/
+    public void showCompleteInventoryOption() {
+        while (true) { 
+    
+            // 1. Mostrar lista de categorías para selección
+            String categoriesText = "Seleccione una categoría o vea el inventario completo:\n";
+            Category[] notNullCategories = categories.getCategories(true);
+            for (int i = 0; i < notNullCategories.length; i++) {
+                categoriesText += (i + 1) + ". " + notNullCategories[i].name + "\n";
+            }
+            categoriesText += (notNullCategories.length + 1) + ". Ver Inventario Completo\n";
+            categoriesText += (notNullCategories.length + 2) + ". Regresar\n"; 
+    
+            int selectedOptionIndex;
+            do {
+                String selectedOption = JOptionPane.showInputDialog(categoriesText);
+    
+                // 2. Validar opción ingresada
+                try {
+                    selectedOptionIndex = Integer.parseInt(selectedOption) - 1;
+                } catch (NumberFormatException e) {
+                    selectedOptionIndex = -1; 
+                }
+    
+                if (selectedOptionIndex < 0 || selectedOptionIndex > notNullCategories.length + 1) {
+                    JOptionPane.showMessageDialog(null, "Opción inválida. Por favor, seleccione una opción válida.");
+                }
+            } while (selectedOptionIndex < 0 || selectedOptionIndex > notNullCategories.length + 1);
+    
+            //"Regresar", salir del bucle y volver al menú principal
+            if (selectedOptionIndex == notNullCategories.length + 1) {
+                break; 
+            }
+    
+            // "Ver Inventario Completo"
+            if (selectedOptionIndex == notNullCategories.length) {
+                String inventoryText = "";
+                for (Category category : notNullCategories) {
+                    inventoryText += category.name + ":\n";
+                    Product[] notNullProducts = category.getProducts(true);
+                    for (Product product : notNullProducts) {
+                        inventoryText += "- " + product.name + " (Precio: " + product.price + ") (Cantidad: " + product.quantity + ") \n";
+                    }
+                    inventoryText += "\n";
+                }
+                inventoryText += "\nPresione OK para regresar al menú principal."; 
+                JOptionPane.showMessageDialog(null, inventoryText);
+            } else { 
+                // Mostrar productos de-categoría seleccionada
+                Category selectedCategory = notNullCategories[selectedOptionIndex];
+                String productsText = selectedCategory.name + ":\n";
+                Product[] notNullProducts = selectedCategory.getProducts(true);
+                for (Product product : notNullProducts) {
+                    productsText += "- " + product.name + " (Precio: " + product.price + ") (Cantidad: " + product.quantity + ")\n";
+                }
+    
+                // Error o exito
+                if (notNullProducts.length == 0) {
+                    JOptionPane.showMessageDialog(null, "La categoría seleccionada no tiene productos.");
+                } else {
+                    JOptionPane.showMessageDialog(null, productsText);
+                }
+            }
+        }
     }
 }
+

@@ -21,7 +21,7 @@ public class ProyectoU {
                 "(1) Registro\n" +
                 "(2) Ingresar productos\n" +
                 "(3) Editar precio de un producto\n" +
-                "(4) Ver inventario completo\n" +
+                "(4) Ver inventario1\n" +
                 "(5) Ver categorias existentes\n" +
                 "(6) Ver productos existentes\n" +
                 "(7) Salir\n"
