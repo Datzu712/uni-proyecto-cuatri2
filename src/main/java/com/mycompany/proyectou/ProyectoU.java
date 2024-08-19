@@ -21,12 +21,11 @@ public class ProyectoU {
                 "(1) Registro\n" +
                 "(2) Ingresar productos\n" +
                 "(3) Editar precio de un producto\n" +
-                "(4) Ver inventario1\n" +
-                "(5) Ver categorias existentes\n" +
+                "(4) Ver inventario\n" +
+                "(5) Ver categorías existentes\n" +
                 "(6) Ver productos existentes\n" +
                 "(7) Salir\n"
             );
-
             if (option == null) {
                 ended = true;
                 break;

@@ -14,12 +14,12 @@ public class Product {
     public final int id;
     public String name;
     public double price;
-    public double quantity;
+    public double stock;
 
     public Product(String name, double price) {
         this.name = name;
         this.price = price;
         this.id = Product.incrementalId++;
-        this.quantity = 0;
+        this.stock = 0;
     }
 }
