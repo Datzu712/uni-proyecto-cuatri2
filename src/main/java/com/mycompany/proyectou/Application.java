@@ -67,7 +67,17 @@ public class Application {
     }
 
     /**
-     * Chance product price 
+     * Allows the user to change the price of a product.
+     * 
+     * This method prompts the user to select a category and then displays the available products in that category.
+     * The user is prompted to enter the name or ID of the product they want to change the price for.
+     * If the product is found, the user is asked to enter the new price for the product.
+     * If the new price is valid (not negative), the price of the product is updated and a success message is displayed.
+     * 
+     * If there are no categories available, an error message is displayed.
+     * If the selected category has no products, an error message is displayed.
+     * If the entered product name or ID is not found, an error message is displayed.
+     * If the entered new price is invalid (negative), an error message is displayed and the method is called recursively.
      */
     public void changeProductPriceOption() {
         if (this.categories.getSize(true) == 0) {
@@ -160,6 +170,18 @@ public class Application {
         Util.showMessage("Los productos de la categoria " + category.name + " son: \n" + availableProducts);
     }
 
+    /**
+     * Adds products to a specific category.
+     * 
+     * This method allows the user to select a category and add products to it. 
+     * It first prompts the user to select a category from the available categories.
+     * If the selected category has no products, it displays a message and returns.
+     * Then, it prompts the user to select a product from the available products in the category.
+     * If no product is selected, the method returns.
+     * If the selected product is not found in the category, it displays a message and returns.
+     * Finally, it prompts the user to enter the quantity of products to add and updates the stock of the selected product.
+     * It displays a message with the updated stock of the product.
+     */
     public void addProductsOption() {
         Category category = this.categories.pickCategory();
         if (category == null) {

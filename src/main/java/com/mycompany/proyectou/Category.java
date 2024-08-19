@@ -55,6 +55,4 @@ public class Category {
     public Product[] getProducts(boolean notNull) {
         return this.products.getProducts(notNull);
     }
-
-    
 }
