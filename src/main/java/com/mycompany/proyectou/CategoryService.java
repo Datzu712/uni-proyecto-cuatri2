@@ -162,7 +162,7 @@ public class CategoryService {
         for (Category category : categories) {
             availableCategories += "[" + category.id + "] - " + category.name + " (Productos registrados: " + category.getProducts(true).length + ")\n"; 
         }
-        String categoryName = Util.input("Categorías Disponibles:\n" + availableCategories + "\nIngrese el nombre/ID de la categoría");
+        String categoryName = Util.input("Categorías Disponibles:\n" + availableCategories + "\nIngrese el nombre/ID de la categoría");;
         if (categoryName == null) {
             return null;
         }
@@ -172,6 +172,6 @@ public class CategoryService {
 
             return pickCategory();
         }
-        return null;
+        return targetCategory;
     }
 }
