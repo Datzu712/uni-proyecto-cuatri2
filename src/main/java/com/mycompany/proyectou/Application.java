@@ -162,46 +162,35 @@ public class Application {
             showProductsOption();
             return;
         }
-
         Util.showMessage("Los productos de la categoria " + category.name + " son: \n" + availableProducts);
     }
 
     public void addProductsOption() {
-        if (this.categories.getSize(true) == 0) {
-            Util.showMessage("No hay categorias disponibles. Por favor, cree una categoria primero.");
-            return;
-        }
-        Category[] categoriesArray = this.categories.getCategories(true);
-    
-        String categoryArray="Las categorias disponibles son: \n";
-        for (int i = 0; i < categoriesArray.length; i++) {
-            Category category = categoriesArray[i];
-            categoryArray += category.name + " con el ID (" + category.id + ") y la descripcion: " + category.description + "\n";
-        }
-        JOptionPane.showMessageDialog(null, categoryArray);
-
-        Category category = this.categories.getCategory(JOptionPane.showInputDialog("Ingrese el nombre/ID de la categoria"));
-        if (category == null){
-            Util.showMessage("La categoria no se encontró");
+        Category category = this.categories.pickCategory();
+        if (category == null) {
             return;
         }
         if (category.getProducts(true).length == 0) {
             Util.showMessage("No existen productos en la categoria " + category.name + ". Por favor, agregue un producto primero.");
             return;
         }
-        String productArray = "Los productos disponibles son: \n";
-        for (int i = 0; i < category.getProducts(true).length; i++) {
-            Product product = category.getProducts(true)[i];
-            productArray += product.name + " con el ID (" + product.id + "), el precio: " + product.price + " y la cantidad de: "+ product.stock + "\n";
+        String availableProducts = category.products.toString();
+        if (availableProducts.isEmpty()) {
+            Util.showMessage("No hay productos en la categoría " + category.name + ". Por favor, agregue un producto primero.");
+            return;
         }
-        JOptionPane.showMessageDialog(null, productArray);
-        Product product = category.products.getProduct(JOptionPane.showInputDialog("Ingrese el nombre/ID del producto"));
+        String ProductName = Util.input(availableProducts);
+        if (ProductName == null) {
+            return;
+        }
+        Product product = category.products.getProduct(ProductName);
         if (product == null){
             Util.showMessage("El producto no se encontró");
             return;
         }
         int stock = (int) Util.inputInt("Ingrese la cantidad de productos a agregar");
         product.stock += stock;
+
         Util.showMessage("Se han agregado " + stock + " a la cantidad del producto " + product.name + " de la categoria " + category.name + " la cantidad total es " + product.stock);
     }
 

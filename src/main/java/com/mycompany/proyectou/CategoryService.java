@@ -146,7 +146,7 @@ public class CategoryService {
     public Category pickCategory() {
         Category[] categories = this.getCategories(true);
         if (categories.length == 0) {
-            Util.showMessage("No hay categorias disponibles.");
+            Util.showMessage("No hay categorías disponibles.");
             return null;
         }
 
