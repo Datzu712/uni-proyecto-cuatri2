@@ -95,7 +95,13 @@ public class Application {
             return;
         }
         double newPrice = Util.inputInt("Ingrese el nuevo precio del producto " + product.name + " (Precio actual: " + product.price + "$)");
-        if (newPrice == -1) {
+        if (Double.isNaN(newPrice)) {
+            return;
+        }
+        if (newPrice < 0) {
+            Util.showMessage("El precio no puede ser negativo.");
+
+            this.changeProductPriceOption();
             return;
         }
         product.price = newPrice;
@@ -222,7 +228,7 @@ public class Application {
                     inventoryText += category.name + ":\n";
                     Product[] notNullProducts = category.getProducts(true);
                     for (Product product : notNullProducts) {
-                        inventoryText += "- " + product.name + " (Precio: " + product.price + "$) (Cantidad: " + product.stock + ") \n";
+                        inventoryText += "- " + product.name + " (Precio: " + product.price + "$) (Cantidad: " + (int) product.stock + ") \n";
                     }
                     inventoryText += "\n";
                 }

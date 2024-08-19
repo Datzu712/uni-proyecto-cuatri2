@@ -31,7 +31,15 @@ public class Category {
                 Util.showMessage("El producto ya existe.");
                 return;
             }
-            double price = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
+            double price = Util.inputInt("Ingrese el precio del producto: ");
+            if (Double.isNaN(price)) {
+                return;
+            }
+            if (price < 0) {
+                Util.showMessage("El precio no puede ser negativo.");
+                return;
+            }
+            //double price = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto: "));
             int response = JOptionPane.showConfirmDialog(null, "¿Desea agregar el producto a la categoria "+this.name+"?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.NO_OPTION) {
                 Util.showMessage("El producto no ha sido agregado a la categoria "+this.name);
