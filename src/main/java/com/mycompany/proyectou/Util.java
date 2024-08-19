@@ -1,6 +1,5 @@
 package com.mycompany.proyectou;
 
-
 import javax.swing.JOptionPane;
 
 public class Util {
@@ -34,7 +33,7 @@ public class Util {
         try {
             String usrInput = input(text);
             if (usrInput == null) {
-                return -1;
+                return Double.NaN;
             }
             return Float.parseFloat(usrInput); 
         } catch (Exception e) {
